@@ -35,6 +35,8 @@ pwd = CryptContext(schemes=["bcrypt"])
 
 # --- AI CONFIGURATION ---
 api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    raise ValueError("GROQ_API_KEY environment variable not set.")
 client = Groq(api_key=api_key)
 
 DB_USERS = "users.db"
@@ -127,8 +129,8 @@ async def chat(msg: ChatMessage):
         if msg.is_guest:
             messages = [system_prompt] + msg.guest_history + [{"role": "user", "content": msg.user_input}]
             completion = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=messages[-11:],
+                model="openai/gpt-oss-20b",
+                messages=messages,
                 temperature=0.7,
             )
             ai_response = completion.choices[0].message.content
@@ -167,7 +169,7 @@ async def chat(msg: ChatMessage):
             messages = [system_prompt] + [{"role": r[0], "content": r[1]} for r in rows]
             
             completion = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-20b",
                 messages=messages,
                 temperature=0.7,
             )
@@ -226,3 +228,7 @@ def serve_home():
     return FileResponse("index.html")
 
 app.mount("/", StaticFiles(directory=".", html=True), name="static")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
