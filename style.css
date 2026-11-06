@@ -7,7 +7,8 @@
     display: flex; 
     justify-content: center; 
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
+    height: 100dvh;
     color: #000;
     width: 100vw;
     position: absolute;
@@ -15,7 +16,6 @@
     z-index: 9999;
 }
 
-/* FIX: Ensure the auth wrapper actually hides when the JS applies the 'hidden' attribute */
 #auth-wrapper[hidden] {
     display: none !important;
 }
@@ -26,6 +26,7 @@
     padding: 40px; 
     border-radius: 12px; 
     width: 400px;
+    max-width: 90vw;
     display: flex; 
     flex-direction: column; 
     align-items: center;
@@ -99,7 +100,6 @@
 
 #auth-wrapper button:hover { opacity: 0.8; }
 
-/* FIX: Globally apply hidden logic just in case */
 [hidden] { display: none !important; }
 
 #auth-wrapper .bottom-bar {
@@ -108,6 +108,7 @@
     width: 100%;
     text-align: center;
     padding: 15px;
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
     font-size: 12px;
     color: #888;
     border-top: 1px solid #e0e0e0;
@@ -116,7 +117,7 @@
 
 
 /* ==========================================================================
-   2. AI CHATBOT APP STYLES (Identical to original Chatbot CSS provided)
+   2. AI CHATBOT APP STYLES
    ========================================================================== */
 
 :root[data-theme="light"] {
@@ -141,18 +142,20 @@
 body, html { 
     margin: 0; padding: 0; font-family: 'Inter', sans-serif;
     background: var(--bg-app); color: var(--text-primary); height: 100vh;
+    height: 100dvh;
     overflow: hidden; 
 }
 
-.app-container { display: flex; width: 100vw; height: 100vh; }
+.app-container { display: flex; width: 100vw; height: 100vh; height: 100dvh; position: relative; }
 
-.app-container[hidden] { display: none !important; } /* Safeguard to hide chat when auth is active */
+.app-container[hidden] { display: none !important; }
 
 /* SIDEBAR-*/
 .sidebar {
     width: 280px; background: var(--bg-side); border-right: 1px solid var(--border);
     display: flex; flex-direction: column; padding: 30px 20px; position: relative;
     overflow: hidden;
+    z-index: 100;
 }
 
 .sidebar.collapsed { width: 0; padding: 30px 0; border-right: none; }
@@ -174,7 +177,6 @@ body, html {
 
 .sidebar-footer { margin-top: auto; border-top: 1px solid var(--border); padding-top: 25px; }
 
-/* USER CARD FIXES & LOGOUT STYLING */
 .user-card { display: flex; align-items: center; gap: 12px; width: 100%; }
 
 .avatar { 
@@ -198,13 +200,13 @@ body, html {
 /* MAIN CONTENT --- */
 .main-content { 
     flex: 1; display: flex; flex-direction: column; min-width: 0;
-    align-items: center; position: relative; 
+    align-items: center; position: relative; height: 100%;
 }
 
 .top-nav { 
     width: 100%; height: 70px; display: flex; align-items: center;
     justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); 
-    z-index: 10; 
+    z-index: 10; flex-shrink: 0;
 }
 
 .nav-left { display: flex; align-items: center; gap: 20px; }
@@ -215,7 +217,6 @@ body, html {
 .nav-logo { display: none; }
 .sidebar.collapsed + .main-content .nav-logo { display: block; animation: fadeIn 0.4s ease; }
 
-/*--- THEME TOGGLE (Top Right) --- */
 .theme-switch-wrapper { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; font-weight: 500; }
 
 .switch { position: relative; display: inline-block; width: 42px; height: 22px; }
@@ -227,13 +228,12 @@ body, html {
 input:checked + .slider { background-color: #444; }
 input:checked + .slider:before { transform: translateX(20px); }
 
-/* CHAT AREA (Full width layout) */
 .conversation-zone { 
     width: 100%; flex: 1; overflow-y: auto; display: flex;
     flex-direction: column; align-items: center; padding: 50px 5% 150px 5%; 
+    -webkit-overflow-scrolling: touch;
 }
 
-/* Widened Message Wrapper */
 .message-wrapper { 
     width: 90%; max-width: 1000px; margin-bottom: 40px;
     display: flex; flex-direction: column; 
@@ -248,11 +248,13 @@ input:checked + .slider:before { transform: translateX(20px); }
 .copy-link { background: none; border: none; color: inherit; cursor: pointer; text-transform: uppercase; padding: 0; transition: opacity 0.2s; }
 .copy-link:hover { opacity: 1; color: var(--text-primary); }
 
-/* INPUT AREA --- */
 .input-section { 
     width: 100%; display: flex; flex-direction: column; align-items: center; 
-    padding: 30px 40px; background: linear-gradient(transparent, var(--bg-app) 60%); 
+    padding: 30px 40px; 
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    background: linear-gradient(transparent, var(--bg-app) 60%); 
     position: absolute; bottom: 0; 
+    z-index: 20;
 }
 
 .input-container { 
@@ -274,4 +276,48 @@ input { flex: 1; background: transparent; border: none; color: var(--text-primar
 
 @media (max-width: 1024px) {
     .message-wrapper, .input-container { width: 95%; }
+}
+
+/* ==========================================================================
+   3. MOBILE RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .sidebar.collapsed {
+        transform: translateX(-100%);
+        width: 280px;
+        padding: 30px 20px;
+    }
+
+    .sidebar-close-btn {
+        display: block !important;
+    }
+
+    .top-nav {
+        padding: 0 16px;
+    }
+
+    .conversation-zone {
+        padding: 20px 4% 140px 4%;
+    }
+
+    .message-wrapper, .input-container {
+        width: 100%;
+    }
+
+    .input-section {
+        padding: 12px 16px;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+
+    .nav-logo {
+        display: block !important;
+    }
 }
