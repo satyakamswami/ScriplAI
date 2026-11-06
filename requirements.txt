@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+groq
+passlib
+bcrypt<4.1.0
+python-jose[cryptography]
+pydantic[email]
