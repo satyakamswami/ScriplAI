@@ -1,0 +1,277 @@
+/* ==========================================================================
+   1. LOGIN AUTH APP STYLES (Strictly Scoped to prevent Chat UI distortion)
+   ========================================================================== */
+#auth-wrapper {
+    background: #ffffff !important; 
+    margin: 0 !important;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    height: 100vh; 
+    color: #000;
+    width: 100vw;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 9999;
+}
+
+/* FIX: Ensure the auth wrapper actually hides when the JS applies the 'hidden' attribute */
+#auth-wrapper[hidden] {
+    display: none !important;
+}
+
+#auth-wrapper .auth-card {
+    background: #fff; 
+    border: 1px solid #e0e0e0;
+    padding: 40px; 
+    border-radius: 12px; 
+    width: 400px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    position: relative;
+}
+
+#auth-wrapper h2 { 
+    font-weight: 500; 
+    margin-bottom: 25px; 
+}
+
+#auth-wrapper input {
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 15px;
+    border: 1px solid #d1d1d1; 
+    border-radius: 8px; 
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+#auth-wrapper button {
+    width: 100%; 
+    padding: 12px; 
+    border-radius: 25px;
+    cursor: pointer; 
+    font-weight: 600; 
+    border: 1px solid #000;
+    transition: 0.2s; 
+    margin-bottom: 10px; 
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+#auth-wrapper #login button, 
+#auth-wrapper #signup button, 
+#auth-wrapper #start button:first-of-type {
+    background: #000 !important; 
+    color: #fff !important;
+}
+
+#auth-wrapper #start button:nth-child(3) {
+    background: #fff; 
+    color: #000; 
+    border: 1px solid #d1d1d1;
+    margin-top: 10px; 
+    margin-bottom: 50px; 
+}
+
+#auth-wrapper #start button:nth-child(3)::after {
+    content: "━━━━━or━━━━━"; 
+    position: absolute; 
+    top: 60px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    color: #888888b3; 
+    font-weight: 400;
+    font-size: 14px; 
+    pointer-events: none;
+}
+
+#auth-wrapper #start button:last-child {
+    background: transparent; 
+    border: 1px solid #000;
+    color: #000; 
+    width: auto; 
+    padding: 8px 35px;
+}
+
+#auth-wrapper button:hover { opacity: 0.8; }
+
+/* FIX: Globally apply hidden logic just in case */
+[hidden] { display: none !important; }
+
+#auth-wrapper .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+
+/* ==========================================================================
+   2. AI CHATBOT APP STYLES (Identical to original Chatbot CSS provided)
+   ========================================================================== */
+
+:root[data-theme="light"] {
+    --bg-app: #ffffff; --bg-side: #f9f9f9; --bg-input: #f3f3f3;
+    --text-primary: #111111; --text-secondary: #666666; --border: #eeeeee; 
+    --accent: #000000;
+}
+:root[data-theme="dark"] {
+    --bg-app: #0a0a0a; --bg-side: #111111; --bg-input: #1a1a1a;
+    --text-primary: #ffffff; --text-secondary: #a0a0a0; --border: #222222;
+    --accent: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                border 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+body, html { 
+    margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+    background: var(--bg-app); color: var(--text-primary); height: 100vh;
+    overflow: hidden; 
+}
+
+.app-container { display: flex; width: 100vw; height: 100vh; }
+
+.app-container[hidden] { display: none !important; } /* Safeguard to hide chat when auth is active */
+
+/* SIDEBAR-*/
+.sidebar {
+    width: 280px; background: var(--bg-side); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; padding: 30px 20px; position: relative;
+    overflow: hidden;
+}
+
+.sidebar.collapsed { width: 0; padding: 30px 0; border-right: none; }
+
+.sidebar > * { transition: opacity 0.3s ease, transform 0.3s ease; opacity: 1; }
+.sidebar.collapsed > * { opacity: 0; transform: translateX(-20px); pointer-events: none; }
+
+.logo { font-weight: 600; font-size: 0.95rem; letter-spacing: 3px; white-space: nowrap; }
+.logo span { font-weight: 300; opacity: 0.5; }
+
+.nav-item { 
+    padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; color: var(--text-secondary); 
+    cursor: pointer; margin-bottom: 8px;margin-top: 20px; white-space: nowrap; 
+}
+
+.nav-item:hover, .nav-item.active { background: var(--bg-input); color: var(--text-primary); }
+
+.history-item { font-size: 0.85rem; opacity: 0.8; overflow: hidden; text-overflow: ellipsis; }
+
+.sidebar-footer { margin-top: auto; border-top: 1px solid var(--border); padding-top: 25px; }
+
+/* USER CARD FIXES & LOGOUT STYLING */
+.user-card { display: flex; align-items: center; gap: 12px; width: 100%; }
+
+.avatar { 
+    width: 38px; height: 38px; background: var(--text-primary); color: var(--bg-app); 
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 0.8rem; font-weight: 600; flex-shrink: 0;
+}
+
+.user-details { display: flex; align-items: center; justify-content: space-between; width: 100%; overflow: hidden; }
+.user-info-text { display: flex; flex-direction: column; overflow: hidden; }
+.username { font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+.status { font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap; }
+
+.logout-btn {
+    background: transparent !important; border: none !important; color: var(--text-secondary) !important; 
+    cursor: pointer; padding: 6px !important; border-radius: 6px; transition: 0.2s ease; 
+    display: flex; align-items: center; justify-content: center; width: auto !important; margin: 0 !important;
+}
+.logout-btn:hover { background: var(--bg-input) !important; color: var(--text-primary) !important; }
+
+/* MAIN CONTENT --- */
+.main-content { 
+    flex: 1; display: flex; flex-direction: column; min-width: 0;
+    align-items: center; position: relative; 
+}
+
+.top-nav { 
+    width: 100%; height: 70px; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border); 
+    z-index: 10; 
+}
+
+.nav-left { display: flex; align-items: center; gap: 20px; }
+.nav-right { display: flex; align-items: center; }
+
+.menu-toggle-btn { background: none; border: none; color: var(--text-primary); font-size: 1.4rem; cursor: pointer; padding: 0; }
+
+.nav-logo { display: none; }
+.sidebar.collapsed + .main-content .nav-logo { display: block; animation: fadeIn 0.4s ease; }
+
+/*--- THEME TOGGLE (Top Right) --- */
+.theme-switch-wrapper { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; font-weight: 500; }
+
+.switch { position: relative; display: inline-block; width: 42px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 20px; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 50%; }
+
+input:checked + .slider { background-color: #444; }
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* CHAT AREA (Full width layout) */
+.conversation-zone { 
+    width: 100%; flex: 1; overflow-y: auto; display: flex;
+    flex-direction: column; align-items: center; padding: 50px 5% 150px 5%; 
+}
+
+/* Widened Message Wrapper */
+.message-wrapper { 
+    width: 90%; max-width: 1000px; margin-bottom: 40px;
+    display: flex; flex-direction: column; 
+}
+.user-wrapper { align-items: flex-end; text-align: right; }
+.ai-wrapper { align-items: flex-start; text-align: left; }
+
+.message { font-size: 1.1rem; line-height: 1.8; margin-bottom: 12px; word-wrap: break-word; }
+
+.meta-tools { display: flex; gap: 20px; font-size: 0.7rem; color: var(--text-secondary); opacity: 0.5; font-weight: 500; letter-spacing: 0.5px; }
+
+.copy-link { background: none; border: none; color: inherit; cursor: pointer; text-transform: uppercase; padding: 0; transition: opacity 0.2s; }
+.copy-link:hover { opacity: 1; color: var(--text-primary); }
+
+/* INPUT AREA --- */
+.input-section { 
+    width: 100%; display: flex; flex-direction: column; align-items: center; 
+    padding: 30px 40px; background: linear-gradient(transparent, var(--bg-app) 60%); 
+    position: absolute; bottom: 0; 
+}
+
+.input-container { 
+    width: 90%; max-width: 1000px; display: flex; background: var(--bg-input); 
+    border: 1px solid var(--border); border-radius: 16px;
+    padding: 8px 16px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+}
+
+input { flex: 1; background: transparent; border: none; color: var(--text-primary); padding: 14px; outline: none; font-size: 1.1rem; }
+
+.send-trigger { 
+    background: var(--accent); color: var(--bg-app); border: none;
+    border-radius: 12px; width: 44px; height: 44px; cursor: pointer; transition: transform 0.2s; 
+}
+
+.send-trigger:hover { transform: scale(1.05); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 1024px) {
+    .message-wrapper, .input-container { width: 95%; }
+}
