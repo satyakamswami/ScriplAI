@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Scripl AI | Intelligence</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -40,9 +40,10 @@
     </div>
 
     <div class="app-container" id="chat-wrapper" hidden>
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-logo-container">
+        <aside class="sidebar collapsed" id="sidebar">
+            <div class="sidebar-logo-container" style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="logo">SCRIPL<span>AI</span></div>
+                <button type="button" class="sidebar-close-btn" onclick="toggleSidebar()" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer;">&times;</button>
             </div>
             
             <nav class="nav-links">
